@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Google Analytics 4 API Setup-Merkblatt</title>
+    <style>
+        @page { margin: 0; size: A4 portrait; }
+        *, *::before, *::after { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; background-color: #ffffff; }
+        html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        @media (prefers-color-scheme: dark) {
+            html { background-color: #1f1f1f; }
+        }
+        body {
+            padding: 12px 0;
+            margin: 0 auto;
+            max-width: 900px;
+            font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+            color: #334155;
+        }
+        .page {
+            height: 297mm;
+            width: 210mm;
+            margin: 0 auto;
+            padding: 16mm 20mm 12mm 20mm;
+            background-color: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.12);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        @media print {
+            html, body { background: none; }
+            body { padding: 0; }
+            .page { margin: 0; border: none; box-shadow: none; overflow: hidden; }
+        }
+
+        /* Kopf */
+        .header-banner {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+            color: #ffffff;
+            padding: 18px 22px;
+            border-radius: 8px;
+            margin-bottom: 9mm;
+        }
+        .header-banner h1 { margin: 0 0 5px 0; font-size: 19pt; font-weight: 700; }
+        .header-banner p { margin: 0; font-size: 10pt; color: #bfdbfe; }
+
+        /* Schritte */
+        .step {
+            display: grid;
+            grid-template-columns: 13mm 1fr;
+            padding: 0 0 5.5mm;
+            margin-bottom: 5.5mm;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .step:last-of-type { border-bottom: none; margin-bottom: 0; }
+        .num {
+            font-size: 22pt;
+            font-weight: 700;
+            line-height: 1;
+            color: #2563eb;
+        }
+        .step.ga .num { color: #ea580c; }
+        .step-title {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin: 2px 0 6px;
+        }
+        .step h2 { margin: 0; font-size: 12.5pt; font-weight: 700; color: #0f172a; }
+        .tool { font-size: 8pt; font-weight: 600; color: #2563eb; }
+        .step.ga .tool { color: #ea580c; }
+
+        ol {
+            margin: 0;
+            padding-left: 17px;
+            font-size: 10pt;
+            line-height: 1.5;
+        }
+        li { margin-bottom: 3px; padding-left: 2px; }
+        li::marker { color: #94a3b8; font-weight: 600; }
+        strong { color: #0f172a; font-weight: 600; }
+        code {
+            font-family: Consolas, "SFMono-Regular", Menlo, monospace;
+            font-size: 9pt;
+            white-space: nowrap;
+            background: #f1f5f9;
+            color: #0f172a;
+            padding: 1px 5px;
+            border-radius: 4px;
+        }
+        a { color: #1d4ed8; text-decoration: none; }
+
+        /* Abschluss */
+        .warning-box {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            border-radius: 6px;
+            padding: 10px 14px;
+            font-size: 9pt;
+            line-height: 1.5;
+            color: #7f1d1d;
+            margin-top: 7mm;
+        }
+        .warning-box strong { color: #991b1b; }
+
+        .page-footer {
+            display: flex;
+            justify-content: space-between;
+            font-size: 8pt;
+            color: #94a3b8;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 3mm;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <main>
+            <header class="header-banner">
+                <h1>Google Analytics 4 – API-Zugang einrichten</h1>
+                <p>Am Ende hast du zwei Dinge: eine <strong style="color:#fff">JSON-Schlüsseldatei</strong> und die <strong style="color:#fff">Property-ID</strong>.</p>
+            </header>
+
+            <section class="step">
+                <div class="num">1</div>
+                <div>
+                    <div class="step-title">
+                        <h2>Google Analytics Data API aktivieren</h2>
+                        <span class="tool">Google Cloud Console</span>
+                    </div>
+                    <ol>
+                        <li><a href="https://console.cloud.google.com/">console.cloud.google.com</a> öffnen und anmelden.</li>
+                        <li>Oben ein Projekt auswählen oder <strong>Projekt erstellen</strong>.</li>
+                        <li>Links <strong>APIs &amp; Dienste › Bibliothek</strong> öffnen.</li>
+                        <li><strong>Google Analytics Data API</strong> suchen, anklicken und <strong>Aktivieren</strong>.</li>
+                    </ol>
+                </div>
+            </section>
+
+            <section class="step">
+                <div class="num">2</div>
+                <div>
+                    <div class="step-title">
+                        <h2>Dienstkonto erstellen</h2>
+                        <span class="tool">Google Cloud Console</span>
+                    </div>
+                    <ol>
+                        <li><strong>APIs &amp; Dienste › Anmeldedaten</strong> öffnen.</li>
+                        <li><strong>+ Anmeldedaten erstellen › Dienstkonto</strong> wählen.</li>
+                        <li>Namen eingeben, z.&nbsp;B. <code>ga4-reporting-bot</code> (ID füllt sich automatisch).</li>
+                        <li><strong>Erstellen und fortfahren</strong>, danach <strong>Fortfahren</strong> und <strong>Fertig</strong>.</li>
+                    </ol>
+                </div>
+            </section>
+
+            <section class="step">
+                <div class="num">3</div>
+                <div>
+                    <div class="step-title">
+                        <h2>JSON-Schlüssel herunterladen</h2>
+                        <span class="tool">Google Cloud Console</span>
+                    </div>
+                    <ol>
+                        <li>Das neue Dienstkonto anklicken (endet auf <code>…iam.gserviceaccount.com</code>).</li>
+                        <li>Tab <strong>Schlüssel</strong> öffnen.</li>
+                        <li><strong>Schlüssel hinzufügen › Neuen Schlüssel erstellen</strong>.</li>
+                        <li><strong>JSON</strong> wählen und <strong>Erstellen</strong> – die Datei wird heruntergeladen.</li>
+                    </ol>
+                </div>
+            </section>
+
+            <section class="step ga">
+                <div class="num">4</div>
+                <div>
+                    <div class="step-title">
+                        <h2>Dienstkonto in GA4 freigeben</h2>
+                        <span class="tool">Google Analytics</span>
+                    </div>
+                    <ol>
+                        <li>E-Mail-Adresse des Dienstkontos kopieren (endet auf <code>…iam.gserviceaccount.com</code>).</li>
+                        <li><a href="https://analytics.google.com/">analytics.google.com</a> öffnen, unten links <strong>Verwaltung</strong> (Zahnrad).</li>
+                        <li>Prüfen, dass in der mittleren Spalte die richtige Property ausgewählt ist.</li>
+                        <li><strong>Kontozugriffsverwaltung › + › Nutzer hinzufügen</strong>.</li>
+                        <li>E-Mail einfügen, Rolle <strong>Betrachter</strong> wählen und <strong>Hinzufügen</strong>.</li>
+                    </ol>
+                </div>
+            </section>
+
+            <section class="step ga">
+                <div class="num">5</div>
+                <div>
+                    <div class="step-title">
+                        <h2>Property-ID notieren</h2>
+                        <span class="tool">Google Analytics</span>
+                    </div>
+                    <ol>
+                        <li>In GA4 unten links <strong>Verwaltung</strong> öffnen und die richtige Property prüfen.</li>
+                        <li><strong>Property-Einstellungen</strong> anklicken.</li>
+                        <li>Die <strong>Property-ID</strong> oben rechts kopieren – nur Ziffern, z.&nbsp;B. <code>123456789</code>.</li>
+                    </ol>
+                </div>
+            </section>
+
+            <div class="warning-box">
+                <strong>Wichtig:</strong> Die JSON-Datei ist ein Zugangsschlüssel. Nicht per E-Mail verschicken,
+                nicht in Git oder öffentliche Ordner legen. Nicht mehr benötigte Schlüssel in der Cloud Console löschen.
+            </div>
+        </main>
+
+        <footer class="page-footer">
+            <span>GA4 API Setup-Merkblatt</span>
+            <span>Peter R. Stuhlmann, Stand: 23.09.2026</span>
+        </footer>
+    </div>
+</body>
+</html>
